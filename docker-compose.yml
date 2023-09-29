@@ -1,0 +1,21 @@
+version: "3.5"
+
+services:
+  php:
+    container_name: php
+    restart: always
+    build:
+      dockerfile: ./docker/Dockerfile
+      context: .
+    volumes:
+      - ./backend:/var/www/html
+  nginx:
+    image: nginx:latest
+    container_name: store-nginx
+    restart: always
+    links:
+      - php
+    ports:
+      - "5000:80"
+    volumes:
+      - ./docker/conf.d:/etc/nginx/conf.d
